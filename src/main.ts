@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Leancontinuo\'s Backend')
-    .setDescription('API for the Leancontinuo project')
+    .setTitle('Lean\'s Backend')
+    .setDescription('API services for leancontinuo.com')
     .setVersion('1.0')
     .build();
 
