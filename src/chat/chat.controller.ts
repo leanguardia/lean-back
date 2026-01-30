@@ -15,7 +15,7 @@ export class ChatController {
   }
 
   @Post()
-  sendMessage(@Body() userMessage: SendMessageDto): MessageResponseDto {
+  async sendMessage(@Body() userMessage: SendMessageDto): Promise<MessageResponseDto> {
     return this.chatService.chat(userMessage);
   }
 }
