@@ -32,8 +32,8 @@ export class GoogleGenAiService implements AiProvider {
       },
     });
 
+    console.log('AI response:', response);
     const text = response.text ?? '';
-    console.log('AI response:', text);
 
     return text;
   }

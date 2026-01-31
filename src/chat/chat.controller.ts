@@ -1,17 +1,26 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
+import type { Request } from 'express';
 
 import { ChatService } from './chat.service';
 import { SendMessageDto, MessageResponseDto } from './dto/message.dto';
 import { ConversationDto } from './dto/conversation.dto';
-import { Conversation } from './entities/conversation.entity';
+import { ConversationService } from './conversation/conversation.service';
+import { getClientIp } from '../common/utils/get-client-ip';
 
 @Controller('chat')
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly conversationService: ConversationService
+  ) {}
 
   @Post('start')
-  startConversation(): ConversationDto {
-    return new Conversation();
+  async startConversation(@Req() req): Promise<ConversationDto> {
+    const request = req as Request;
+    return this.conversationService.create(
+      getClientIp(request),
+      request.get('user-agent') ?? 'unknown'
+    );
   }
 
   @Post()

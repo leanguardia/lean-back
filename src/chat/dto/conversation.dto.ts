@@ -1,4 +1,4 @@
 export class ConversationDto {
   id: string;
-  timestamp: Date;
+  createdAt: Date;
 }
