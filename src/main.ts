@@ -19,6 +19,10 @@ async function bootstrap() {
     .setTitle('Lean\'s Backend')
     .setDescription('API services for leancontinuo.com')
     .setVersion('1.0')
+    .addApiKey(
+      { type: 'apiKey', name: 'X-API-Key', in: 'header', description: 'API key for secured endpoints' },
+      'api-key',
+    )
     .build();
 
   const docFactory = () => SwaggerModule.createDocument(app, config);
