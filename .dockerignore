@@ -1,0 +1,42 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output (rebuilt in container)
+dist
+coverage
+*.tsbuildinfo
+
+# Local/runtime data
+data
+
+# Git and IDE
+.git
+.gitignore
+.cursor
+.vscode
+.idea
+*.swp
+*.swo
+
+# Env files (use Cloud Run env vars or Secret Manager)
+.env
+.env.*
+!.env.example
+
+# Tests and tooling
+test
+*.spec.ts
+*.e2e-spec.ts
+jest.config.js
+.eslintrc*
+.prettierrc
+eslint.config.mjs
+
+# Docs and misc
+README.md
+*.md
+.DS_Store
+
+# Scripts not needed in image
+scripts
