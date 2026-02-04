@@ -30,6 +30,7 @@ steps:
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
       - '--set-env-vars=NODE_ENV=production'
+      - '--set-env-vars=CORS_ORIGIN=https://leancontinuo.com'
       - '--set-secrets=API_KEY=lean-back-API_KEY:latest'
       - '--set-secrets=GOOGLE_API_KEY=lean-back-GOOGLE_API_KEY:latest'
       - '--no-traffic'

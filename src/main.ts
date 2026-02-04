@@ -7,6 +7,11 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({ // TODO: remove when proxy is implemented in the frontend
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
