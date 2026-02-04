@@ -1,23 +1,22 @@
+import { ConversationDto } from '../dto/conversation.dto';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Conversation } from '../entities/conversation.entity';
-import { randomUUID } from 'crypto';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class ConversationService {
-  constructor(
-    @InjectRepository(Conversation)
-    private conversationRepo: Repository<Conversation>,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(ipAddress: string, userAgent: string): Promise<Conversation> {
-    const conversation = this.conversationRepo.create({
-      ipAddress,
-      userAgent,
+  async create(ipAddress: string, userAgent: string): Promise<ConversationDto> {
+    const conversation = await this.prisma.conversation.create({
+      data: {
+        ipAddress,
+        userAgent,
+      },
     });
-    // await this.conversationRepo.save(conversation);
-    conversation.id = randomUUID(); // TODO: remove this when persistence is implemented
-    return conversation;
+
+    return {
+      id: conversation.id,
+      createdAt: conversation.created_at,
+    };
   }
 }
