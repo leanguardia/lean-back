@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Conversation } from '../entities/conversation.entity';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ConversationService {
@@ -15,7 +16,8 @@ export class ConversationService {
       ipAddress,
       userAgent,
     });
-    await this.conversationRepo.save(conversation);
+    // await this.conversationRepo.save(conversation);
+    conversation.id = randomUUID(); // TODO: remove this when persistence is implemented
     return conversation;
   }
 }
