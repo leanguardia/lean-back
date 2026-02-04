@@ -1,7 +1,7 @@
 import { MessageResponseDto, SendMessageDto } from './dto/message.dto';
 
 import { Inject, Injectable } from '@nestjs/common';
-import type { AiProvider } from '../ai/ai-provider.interface';
+import type { AiProvider, ChatMessage } from '../ai/ai-provider.interface';
 import { AI_PROVIDER } from '../ai/ai-provider.interface';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -13,7 +13,7 @@ export class ChatService {
   ) {}
 
   async chat(userMessage: SendMessageDto): Promise<MessageResponseDto> {
-    const savedUserMessage = await this.prisma.message.create({
+    await this.prisma.message.create({
       data: {
         conversation_id: userMessage.conversationId,
         content: userMessage.message,
@@ -21,7 +21,8 @@ export class ChatService {
       },
     });
 
-    const aiResponseContent = await this.aiProvider.generateResponse(userMessage.message);
+    const history = await this.getConversationHistory(userMessage.conversationId);
+    const aiResponseContent = await this.aiProvider.generateResponse(history);
 
     const savedAiMessage = await this.prisma.message.create({
       data: {
@@ -37,5 +38,17 @@ export class ChatService {
       conversationId: userMessage.conversationId,
       timestamp: savedAiMessage.created_at,
     };
+  }
+
+  private async getConversationHistory(conversationId: string): Promise<ChatMessage[]> {
+    const messages = await this.prisma.message.findMany({
+      where: { conversation_id: conversationId },
+      orderBy: { created_at: 'asc' },
+    });
+
+    return messages.map((msg) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      content: msg.content,
+    }));
   }
 }

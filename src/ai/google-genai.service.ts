@@ -1,4 +1,5 @@
-import { AiProvider } from './ai-provider.interface';
+import { AiProvider, ChatMessage } from './ai-provider.interface';
+
 import { GoogleGenAI } from '@google/genai';
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
@@ -23,10 +24,15 @@ export class GoogleGenAiService implements AiProvider {
     this.systemInstruction = readFileSync(SYSTEM_INSTRUCTION_PATH, 'utf-8').trim();
   }
 
-  async generateResponse(prompt: string): Promise<string> {
+  async generateResponse(history: ChatMessage[]): Promise<string> {
+    const contents = history.map((msg) => ({
+      role: msg.role,
+      parts: [{ text: msg.content }],
+    }));
+
     const response = await this.client.models.generateContent({
       model: this.model,
-      contents: prompt,
+      contents,
       config: {
         systemInstruction: this.systemInstruction,
       },
