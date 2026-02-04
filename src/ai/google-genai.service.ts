@@ -5,8 +5,7 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 
 const DEFAULT_MODEL = 'gemini-2.0-flash-001';
-const SYSTEM_INSTRUCTION_NAME = 'lean-system-instruction.txt';
-const SYSTEM_INSTRUCTION_PATH = join(__dirname, '..', '..', 'ai', SYSTEM_INSTRUCTION_NAME);
+const SYSTEM_INSTRUCTION_PATH = join(process.cwd(), 'dist', 'ai', 'lean-system-instruction.txt');
 
 @Injectable()
 export class GoogleGenAiService implements AiProvider {
