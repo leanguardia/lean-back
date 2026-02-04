@@ -7,9 +7,29 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({ // TODO: remove when proxy is implemented in the frontend
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
+  // TODO: remove when proxy is implemented in the frontend
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // Allowed origin patterns
+      const allowedPatterns = [
+        /^https?:\/\/localhost:3000$/,                           // Local development
+        /^https?:\/\/(.+\.)?leancontinuo\.com$/,                 // leancontinuo.com and all subdomains
+        /^https?:\/\/.*\.vercel\.app$/,                          // All Vercel deployments
+      ];
+
+      const isAllowed = allowedPatterns.some(pattern => pattern.test(origin));
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
+    allowedHeaders: ['Content-Type', 'X-API-Key'],
   });
 
   app.useGlobalPipes(
