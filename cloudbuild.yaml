@@ -32,7 +32,20 @@ steps:
       - '--set-env-vars=NODE_ENV=production'
       - '--set-secrets=API_KEY=lean-back-API_KEY:latest'
       - '--set-secrets=GOOGLE_API_KEY=lean-back-GOOGLE_API_KEY:latest'
+      - '--no-traffic'
+      - '--tag=candidate'
     id: Deploy
+    entrypoint: gcloud
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    args:
+      - run
+      - services
+      - update-traffic
+      - $_SERVICE_NAME
+      - '--to-latest'
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Route-Traffic
     entrypoint: gcloud
 images:
   - >-
