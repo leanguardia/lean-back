@@ -15,7 +15,7 @@ export class ChatService {
     return {
       id: randomUUID(),
       message,
-      conversation_id: userMessage.conversation_id,
+      conversationId: userMessage.conversationId,
       timestamp: new Date(),
     };
   }

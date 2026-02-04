@@ -7,12 +7,12 @@ export class SendMessageDto {
 
   @IsUUID()
   @IsNotEmpty()
-  conversation_id: string;
+  conversationId: string;
 }
 
 export class MessageResponseDto {
   id: string;
   message: string;
-  conversation_id: string;
+  conversationId: string;
   timestamp: Date;
 }
