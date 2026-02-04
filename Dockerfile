@@ -9,6 +9,9 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
 
 RUN pnpm install --frozen-lockfile
 
+COPY prisma ./prisma
+RUN pnpm exec prisma generate
+
 COPY . .
 RUN pnpm run build && pnpm prune --prod
 

@@ -32,6 +32,7 @@ steps:
       - '--set-env-vars=NODE_ENV=production'
       - '--set-secrets=API_KEY=lean-back-API_KEY:latest'
       - '--set-secrets=GOOGLE_API_KEY=lean-back-GOOGLE_API_KEY:latest'
+      - '--set-secrets=DATABASE_URL=lean-back-DATABASE_URL:latest'
       - '--no-traffic'
       - '--tag=candidate'
     id: Deploy

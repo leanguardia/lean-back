@@ -4,6 +4,7 @@ node_modules
 
 # Build output (rebuilt in container)
 dist
+src/generated
 coverage
 *.tsbuildinfo
 
