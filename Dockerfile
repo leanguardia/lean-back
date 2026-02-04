@@ -1,8 +1,6 @@
 # Build stage
 FROM node:22-alpine AS builder
 
-RUN apk add --no-cache python3 make g++
-
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -24,6 +22,7 @@ WORKDIR /app
 # Copy package manifests and production node_modules from builder
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
 
 COPY --from=builder /app/dist ./dist
 

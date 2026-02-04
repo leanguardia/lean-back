@@ -1,10 +1,9 @@
-import { Conversation } from '../entities/conversation.entity';
 import { ConversationService } from './conversation.service';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Conversation])],
+  imports: [PrismaModule],
   providers: [ConversationService],
   exports: [ConversationService],
 })
