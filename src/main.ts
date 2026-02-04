@@ -16,7 +16,7 @@ async function bootstrap() {
 
       // Allowed origin patterns
       const allowedPatterns = [
-        /^https?:\/\/localhost:3000$/,                           // Local development
+        /^https?:\/\/localhost:(3000|3001)$/,                     // Local development
         /^https?:\/\/(.+\.)?leancontinuo\.com$/,                 // leancontinuo.com and all subdomains
         /^https?:\/\/.*\.vercel\.app$/,                          // All Vercel deployments
       ];
