@@ -11,7 +11,7 @@ const SYSTEM_INSTRUCTION_PATH = join(process.cwd(), 'dist', 'ai', 'lean-system-i
 @Injectable()
 export class GoogleGenAiService implements AiProvider {
   private readonly client: GoogleGenAI;
-  private readonly model: string;
+  readonly modelName: string;
   private readonly systemInstruction: string;
 
   constructor() {
@@ -20,7 +20,7 @@ export class GoogleGenAiService implements AiProvider {
       project: process.env.GOOGLE_CLOUD_PROJECT,
       location: process.env.GOOGLE_CLOUD_LOCATION,
     });
-    this.model = DEFAULT_MODEL;
+    this.modelName = DEFAULT_MODEL;
     this.systemInstruction = readFileSync(SYSTEM_INSTRUCTION_PATH, 'utf-8').trim();
   }
 
@@ -31,7 +31,7 @@ export class GoogleGenAiService implements AiProvider {
     }));
 
     const response = await this.client.models.generateContent({
-      model: this.model,
+      model: this.modelName,
       contents,
       config: {
         systemInstruction: this.systemInstruction,

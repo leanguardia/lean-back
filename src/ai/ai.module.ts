@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
 import { AI_PROVIDER } from './ai-provider.interface';
 import { GoogleGenAiService } from './google-genai.service';
+import { Module } from '@nestjs/common';
 
 @Module({
   providers: [

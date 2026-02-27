@@ -6,5 +6,6 @@ export interface ChatMessage {
 }
 
 export interface AiProvider {
+  readonly modelName: string;
   generateResponse(history: ChatMessage[]): Promise<string>;
 }

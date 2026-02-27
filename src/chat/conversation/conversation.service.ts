@@ -6,11 +6,12 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ConversationService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(ipAddress: string, userAgent: string): Promise<ConversationDto> {
+  async create(ipAddress: string, userAgent: string, languageModel: string): Promise<ConversationDto> {
     const conversation = await this.prisma.conversation.create({
       data: {
         ipAddress,
         userAgent,
+        language_model: languageModel,
       },
     });
 

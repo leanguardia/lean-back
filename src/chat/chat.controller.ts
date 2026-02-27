@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiSecurity } from '@nestjs/swagger';
 import type { Request } from 'express';
 
@@ -8,14 +8,17 @@ import { ConversationDto } from './dto/conversation.dto';
 import { ConversationService } from './conversation/conversation.service';
 import { getClientIp } from '../common/utils/get-client-ip';
 import { ApiKeyGuard } from '../common/guards/api-key.guard';
+import type { AiProvider } from '../ai/ai-provider.interface';
+import { AI_PROVIDER } from '../ai/ai-provider.interface';
 
 @Controller('chat')
-@UseGuards(ApiKeyGuard)
+  @UseGuards(ApiKeyGuard)
 @ApiSecurity('api-key')
 export class ChatController {
   constructor(
     private readonly chatService: ChatService,
-    private readonly conversationService: ConversationService
+    private readonly conversationService: ConversationService,
+    @Inject(AI_PROVIDER) private readonly aiProvider: AiProvider,
   ) {}
 
   @Post('start')
@@ -23,7 +26,8 @@ export class ChatController {
     const request = req as Request;
     return this.conversationService.create(
       getClientIp(request),
-      request.get('user-agent') ?? 'unknown'
+      request.get('user-agent') ?? 'unknown',
+      this.aiProvider.modelName,
     );
   }
 
