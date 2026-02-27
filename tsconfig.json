@@ -23,7 +23,6 @@
     "noFallthroughCasesInSwitch": false
   },
   "include": [
-    "src/**/*.ts",
-    "prisma.config.ts"
+    "src/**/*.ts"
   ]
 }
