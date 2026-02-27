@@ -18,6 +18,7 @@ export class ConversationService {
     return {
       id: conversation.id,
       createdAt: conversation.created_at,
+      modelName: languageModel,
     };
   }
 }

@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
-const DEFAULT_MODEL = 'gemini-2.0-flash-001';
+const DEFAULT_MODEL = 'gemini-2.5-flash';
 const SYSTEM_INSTRUCTION_PATH = join(process.cwd(), 'dist', 'ai', 'lean-system-instruction.txt');
 
 @Injectable()
@@ -32,10 +32,13 @@ export class GoogleGenAiService implements AiProvider {
 
     const response = await this.client.models.generateContent({
       model: this.modelName,
-      contents,
       config: {
         systemInstruction: this.systemInstruction,
+        thinkingConfig: {
+          thinkingBudget: -1, // dynamic thinking: 0-24576 tokens
+        }
       },
+      contents,
     });
 
     const text = response.text ?? '';
