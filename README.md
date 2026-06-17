@@ -212,4 +212,4 @@ This project is [MIT licensed](./LICENSE).
 
 ## Author
 
-[Leandro Guardia](https://github.com/leanguardia)
+[Leandro Guardia](https://github.com/leancontinuo)
